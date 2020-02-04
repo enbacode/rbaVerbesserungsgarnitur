@@ -65,5 +65,8 @@ module.exports = {
 			jQuery: 'jquery'
 		}),
 		new VueLoaderPlugin(),
+		new CopyPlugin([
+			{ from: 'static', to: '' },
+		]),
 	],
 }

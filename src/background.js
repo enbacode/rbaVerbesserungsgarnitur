@@ -1,9 +1,7 @@
 import browser from 'webextension-polyfill'
 import axios from 'axios'
 import vg from './core/rbaVG'
-
-import 'file-loader!./icons/icon.png'
-import 'file-loader!./icons/icon_128.png'
+import './manifest.json'
 
 
 // installation routine
@@ -20,7 +18,6 @@ browser.runtime.onMessage.addListener((request, _, sendResponse) => {
 			.catch((error) => sendResponse({ error }))
 		return true
 	}
-
 	return false
 })
 
@@ -39,7 +36,7 @@ browser.runtime.onMessage.addListener((request, _, sendResponse) => {
 browser.tabs.onUpdated.addListener((tabId, changeInfo) => {
 	if(changeInfo.url)
 		if(changeInfo.url.contains('rbaforum.de') || changeInfo.url.contains('r-b-a.de'))
-			browser.pageAction.show(tabId)
+			browser.browserAction.enable(tabId)
 		else
-			browser.pageAction.hide(tabId)
+			browser.browserAction.disable(tabId)
 })

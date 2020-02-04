@@ -3,6 +3,8 @@ const webpack = require('webpack')
 // eslint-disable-next-line no-undef
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
+const CopyPlugin = require('copy-webpack-plugin')
+
 // eslint-disable-next-line no-undef
 module.exports = {
 	mode: 'development',
@@ -43,6 +45,15 @@ module.exports = {
 				}],
 			},
 			{
+				test: /icons\/\.(jpe?g|png|gif)$/i,
+				use: [{
+					loader: 'file-loader',
+					options: {
+						name: '[name].[ext]'
+					}
+				}],
+			},
+			{
 				test: /\.(jpe?g|png|gif)$/i,
 				use: [{
 					loader: 'url-loader',
@@ -63,6 +74,9 @@ module.exports = {
 			$: 'jquery',
 			jQuery: 'jquery'
 		}),
-		new VueLoaderPlugin()
+		new VueLoaderPlugin(),
+		new CopyPlugin([
+			{ from: 'static', to: '' },
+		]),
 	],
 }
