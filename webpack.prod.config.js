@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const ZipPlugin = require('zip-webpack-plugin')
-const path = require('path')
+const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
     mode: 'production',
@@ -68,5 +68,9 @@ module.exports = {
         new CopyPlugin([
             { from: 'static', to: '' },
         ]),
+        new ZipPlugin({
+            path: '../zip',
+            filename: 'rbavg'
+        })
     ],
 }
