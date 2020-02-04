@@ -9,14 +9,16 @@ export default class Battle {
 
 	constructor(battle) {
 		this.url = battle
+		this.title = ''
 		this.term = ''
+		this.opponent = {}
+		this.contender = {}
+		this.rounds = []
 	}
 
 	async fetch() {
-		vg.ajax.get(this.url)
-			.then(e => { return e.response})
-			.then(e => this.parse(e.data))
-			.catch(e => { throw e })
+		const resp = await vg.ajax.get(this.url)
+		return this.parse(resp.response.data)
 	}
 
 	parse(src) {
