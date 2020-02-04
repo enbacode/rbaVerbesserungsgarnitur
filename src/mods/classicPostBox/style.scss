@@ -1,0 +1,58 @@
+.content > .section {
+    padding: 0;
+    background-color: inherit;
+}
+.messageList:not(.messageReducedList) > li {
+    padding: 5px 0;
+}
+.messageHeader {
+    padding: 5px;
+    border-bottom: 1px solid rgba(20, 20, 20, 1);
+}
+.messageSidebar + .messageContent {
+    max-width: 100%;
+    margin: 8px 20px;
+}
+/* sidebar */
+ .wbbPost {
+    background-color: rgba(48, 48, 48, 1);
+}
+.messageSidebar {
+    align-self: auto;
+    flex: 0 0 190px;
+}
+.userTitle .badge {
+    background-color: transparent;
+    color: rgba(170, 170, 170, 1);
+}
+
+.messageAuthorContainer {
+    margin-bottom: -5px !important;
+}
+.userCredits {
+    margin-top: 5px
+}
+.messageSidebar .userTitle + .userRank {
+    margin-top: -2px;
+}
+
+.quoteBox {
+    min-height: 0;
+    padding: 10px;
+    background-color: black;
+}
+.quoteBoxTitle {
+    margin-bottom: 10px;
+}
+.quoteBoxIcon > .quoteBoxQuoteSymbol {
+    display: none;
+}
+
+.messageFooterButtonsExtra .invisible, .messageFooterButtons .invisible {
+    display: inline-block;
+}
+
+.messageFooterGroup {
+    border-top: 1px solid rgba(20, 20, 20, 1);
+    margin-top: 10px;
+}

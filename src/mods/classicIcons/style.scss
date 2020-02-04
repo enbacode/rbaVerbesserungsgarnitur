@@ -1,0 +1,13 @@
+.threadM {
+    position: relative;
+    top: 12px;
+    left: 12px;
+}
+
+.myAvatar {
+    display: none;
+}
+
+.messageGroupList .tabularListColumns.new .columnSubject > h3 > .messageGroupLink::before {
+    content: "";
+}

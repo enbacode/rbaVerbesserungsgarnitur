@@ -1,0 +1,41 @@
+{
+  "manifest_version": 2,
+  "name": "RBA Verbesserungsgarnitur",
+  "short_name": "rbaVG",
+  "version": "0.1.0",
+
+  "description": "An enhancement extension for the RBA and its forum.",
+
+  "author": "enba",
+
+  "background": {
+    "persistent": false,
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+      {
+        "matches": ["*://*.rbaforum.de/*", "*://*.r-b-a.de/*"],
+        "js": ["content.js"]
+      }
+  ],
+
+  "page_action": {
+    "default_icon": "icon_128.png",
+    "default_title": "RBA Verbesserungsgarnitur",
+    "default_popup": "popup.html"
+  },
+
+  "icons": { 
+      "128": "icon_128.png",
+      "48": "icon_48.png",
+      "16": "icon_16.png"
+
+  },
+
+  "homepage_url": "https://github.com/enbacode/rbaVerbesserungsGarnitur",
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "permissions": ["storage"]
+}

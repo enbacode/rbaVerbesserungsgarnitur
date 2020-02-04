@@ -1,0 +1,55 @@
+    .wbbCategory {
+        background-color: rgba(48, 48, 48, 1);
+    }
+    .wbbBoardDescription {
+        font-size:12px;
+    }
+    .inlineList.wbbSubBoards {
+        font-size:13px;
+    }
+    .statusDisplay .topReactionShort {
+        display: none;
+    }
+    .box[data-box-identifier="com.woltlab.wbb.LatestPosts"] {
+        background-color: rgba(48, 48, 48, 1);
+    }
+    .box[data-box-identifier="com.woltlab.wbb.LatestPosts"] .boxTitle {
+        background-color: black;
+        padding: 7px 0 7px 12px;
+        font-size: 14px;
+        color: rgba(230, 230, 230, 1);
+    }
+    .box[data-box-identifier="com.woltlab.wbb.LatestPosts"] .boxContent {
+        margin-top: 0;
+    }
+    .tabularListRow:not(.tabularListRowHead):nth-child(even) {
+        background-color: rgba(37, 37, 37, 1);
+    }
+    .wbbBoardList .wbbBoardContainer:nth-child(odd) {
+        background-color: rgba(37, 37, 37, 1);
+    }
+    .box[data-box-identifier="com.woltlab.wbb.LatestPosts"] .tabularListColumns > li {
+        padding: 5px;
+    }
+    .box[data-box-identifier="com.woltlab.wbb.LatestPosts"] .tabularListColumns .columnAvatar div .icon {
+        display: none;
+    }
+    .messageGroupList {
+        background-color: rgba(48, 48, 48, 1) !important;
+    }
+    .tabularListColumns .columnAvatar .userAvatarImage, .tabularListColumns .columnAvatar .userAvatarImage {
+        display: none;
+    }
+    .tabularListColumns.wbbThreadSticky .columnAvatar span.icon, .tabularListColumns.wbbThreadAnnouncement .columnAvatar span.icon {
+        margin-top: 14px;
+    }
+    .content > .section, .content > form, .sectionContainer {
+        padding: 0;
+        border: 0;
+
+    }
+
+    .content > .section {
+        padding: 0;
+        background-color: inherit;
+    }
