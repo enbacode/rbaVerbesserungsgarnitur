@@ -1,4 +1,4 @@
-import ajax from '../ajax'
+import vg from '../rbaVG'
 
 export default class Page {
 
@@ -13,7 +13,7 @@ export default class Page {
     }
 
     async fetch() {
-		const response = (await ajax.get(this.url)).response
+		const response = (await vg.ajax.get(this.url)).response
 		return response.data
 	}
     

@@ -5,5 +5,5 @@ export default class Post extends Thing {
     constructor(elem) {
         super(elem)
     }
-    
+
 }

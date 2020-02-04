@@ -9,9 +9,9 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 const app = new Vue({
-	el: '#popupApp',
-	components: { PopupPage },
-	render: h => h(PopupPage),
-	template: '<popupPage />'
+    el: '#popupApp',
+    components: { PopupPage },
+    render: h => h(PopupPage),
+    template: '<popupPage />'
 
 })

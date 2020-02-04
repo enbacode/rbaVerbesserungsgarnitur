@@ -6,21 +6,21 @@ import './options.html'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-Array.prototype.groupBy = function(prop) {
-	return this.reduce(function(groups, item) {
-		const val = item[prop]
-		groups[val] = groups[val] || []
-		groups[val].push(item)
-		return groups
-	}, {})
+Array.prototype.groupBy = (prop) => {
+    return this.reduce((groups, item) => {
+        const val = item[prop]
+        groups[val] = groups[val] || []
+        groups[val].push(item)
+        return groups
+    }, {})
 }
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 new Vue({
-	el: '#optionsApp',
-	components: { OptionsPage },
-	render: h => h(OptionsPage),
-	template: '<OptionsPage />'
+    el: '#optionsApp',
+    components: { OptionsPage },
+    render: h => h(OptionsPage),
+    template: '<OptionsPage />'
 
 })

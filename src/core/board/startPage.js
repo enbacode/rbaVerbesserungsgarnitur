@@ -9,11 +9,11 @@ export default class StartPage extends Page {
     }
 
     parse() {
-        
+
         this.newPosts = [...this.htmlElement
             .querySelectorAll('.box[data-box-identifier="com.woltlab.wbb.LatestPosts"] .tabularListRow:not(.tabularListRowHead)')]
             .map(e => new Thing(e, () => window.location.href = e.querySelector('h3 a').href))
-        
+
         this.boards = [...this.htmlElement
             .querySelectorAll('.wbbBoardContainer')]
             .map(e => new Thing(e, () => window.location.href = e.querySelector('h3 a').href))

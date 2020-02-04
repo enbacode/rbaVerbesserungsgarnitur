@@ -22,8 +22,4 @@ Step 4: Build & bundle with webpack:
 
 yarn run build
 
-Step 5: Manually copy icons:
-
-cp -r src/icons/* dist
-
 This should reproduce the exact same output as provided in the uploaded extension zip file.
