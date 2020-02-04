@@ -12,6 +12,7 @@ export default class Thing {
     select() {
         this.htmlElement.focus()
         this.htmlElement.scrollIntoView()
+        window.scrollBy(0,-50)
         this.htmlElement.classList.add('activeThing')
     }
 
