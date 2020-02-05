@@ -29,8 +29,8 @@
         </b-card>
       </b-col>
     </b-row>
-	<b-row>
-		<div class="text-center">s/o an benger für das Bereitstellen der Icons</div>
+	<b-row class="my-3 d-flex justify-content-center font-weight-light">
+		<small>s/o an benger für das Bereitstellen der Icons</small>
 	</b-row>
   </b-container>
 </template>
