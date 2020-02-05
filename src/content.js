@@ -36,4 +36,7 @@ import './manifest.json'
             konamiCodePosition = 0
         }
     })
+
+    //display page after everything is injected to prevent FOUC
+    document.getElementById('pageContainer').style.display = 'block'
 })()
