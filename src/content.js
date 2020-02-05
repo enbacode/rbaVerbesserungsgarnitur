@@ -38,7 +38,6 @@ import './manifest.json'
     })
 
     //display page after everything is injected to prevent FOUC
-    setTimeout(() => {
-        document.getElementById('pageContainer').style.display = 'block'
-    }, 1)
+   const pageContainer =  document.getElementById('pageContainer')
+   setTimeout(() => pageContainer.classList.add('fadeIn'), 1)
 })()
