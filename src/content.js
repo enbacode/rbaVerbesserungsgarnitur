@@ -35,8 +35,8 @@ import './manifest.json'
         } else {
             konamiCodePosition = 0
         }
-    });
+    })
 
-    // display page after everything is injected to prevent FOUC
-    setTimeout(() => { document.getElementById('pageContainer').style.display = 'block'}, 1)
+    //display page after everything is injected to prevent FOUC
+    document.getElementById('pageContainer').style.display = 'block'
 })()
