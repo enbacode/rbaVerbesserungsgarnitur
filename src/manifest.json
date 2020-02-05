@@ -13,12 +13,16 @@
   },
   "content_scripts": [
     {
+      "run_at": "document_end",
       "matches": [
         "*://*.rbaforum.de/*",
         "*://*.r-b-a.de/*"
       ],
       "js": [
         "content.js"
+      ],
+      "css": [
+        "css/noFOUC.css"
       ]
     }
   ],
