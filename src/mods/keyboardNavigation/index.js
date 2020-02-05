@@ -19,6 +19,7 @@ export default {
             <div class="col-sm-6 col-md-4 col-lg-3 my-1"><kbd>c</kbd> Post zitieren</div>
             <div class="col-sm-6 col-md-4 col-lg-3 my-1"><kbd>b</kbd> Post bedanken</div>
             <div class="col-sm-6 col-md-4 col-lg-3 my-1"><kbd>n</kbd> Neuer Post</div>
+            <div class="col-sm-6 col-md-4 col-lg-3 my-1"><kbd>s</kbd> Startseite</div>
         </div>
         <div class="alert alert-warning mb-1" role="alert">Das Bedanken funktioniert derzeit nur, wenn die Mod "Klassische Bedankungen" aktiviert ist.</div>`,
     inject: () => {
