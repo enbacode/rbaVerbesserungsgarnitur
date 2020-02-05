@@ -29,6 +29,9 @@
         </b-card>
       </b-col>
     </b-row>
+	<b-row>
+		<div class="text-center">s/o an benger für das Bereitstellen der Icons</div>
+	</b-row>
   </b-container>
 </template>
 
