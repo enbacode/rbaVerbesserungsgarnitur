@@ -77,6 +77,7 @@ export default {
 
   mounted() {
     this.$refs.player.$on('ready', () => this.loading = false)
+    this.$refs.player.$on('finish', () => this.playing = false)
   }
 };
 </script>
@@ -94,5 +95,13 @@ export default {
 }
 .btn-primary:focus {
   box-shadow: 0 0 0 0.2rem rgba(255, 165, 0, 0.5);
+}
+.media-body {
+  position: relative;
+}
+.loadingSpinner {
+  position: absolute;
+  top: 19px;
+  width: 100%;
 }
 </style>

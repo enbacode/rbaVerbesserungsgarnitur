@@ -44,6 +44,7 @@ export default {
       backend: this.backend
     });
     this.wavesurfer.on('loading', progress => this.$emit('loadingProgressChanged', progress))
+    this.wavesurfer.on('finish', () => this.$emit('finish'))
     this.wavesurfer.on('ready', () => this.$emit('ready'))
     this.wavesurfer.load(this.src);
   }
