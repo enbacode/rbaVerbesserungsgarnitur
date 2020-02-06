@@ -50,6 +50,7 @@
   },
   "permissions": [
     "storage",
-    "*://*.r-b-a.de/*"
+    "*://*.r-b-a.de/*",
+    "*://*.rbaforum.de/*"
   ]
 }
