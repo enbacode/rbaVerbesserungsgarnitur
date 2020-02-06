@@ -27,8 +27,11 @@ export default {
     async storeMods(mods) {
         //FF throws an error when trying to save objects that have non-serializable members
         //converting the object to json, then parsing it back is a quick and simple way to
-        //get rid of all non-serializable objects 
-        await browser.storage.local.set({ mods: JSON.parse(JSON.stringify(mods)) })
+        //get rid of all non-serializable objects
+        const rawStored = await browser.storage.local.get('mods')
+        const toStore = [...JSON.parse(JSON.stringify(mods)), ]
+        console.log(toStore)
+        await browser.storage.local.set({ mods: toStore })
     },
 
     async storedMods() {
@@ -76,14 +79,17 @@ export default {
 
     async initMods() {
 
-        await browser.storage.local.remove('mods')
+        let storedMods = await this.storedMods()
         
-        let mods = availableMods.map((mod) => { 
+        let mods = availableMods.map((mod) => {
+            const storedMod = storedMods.find(p => p.name == mod.name)
             mod.active = true
             mod.enabled = (mod.enabled === false ? false : true)
             mod.showInOptions = (mod.showInOptions === false ? false : true)
             if(mod.style)
                 mod.styleString = mod.style[0][1]
+            if(storedMod)
+                mod = {...mod, ...storedMod}
             delete mod.inject
             delete mod.style
             return mod
