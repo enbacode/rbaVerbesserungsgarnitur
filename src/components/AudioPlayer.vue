@@ -1,10 +1,7 @@
 <template>
-  <div class="waveform" :id="id" v-if="backend == 'WebAudio'"></div>
-  <div
-    class="waveform"
-    :id="id"
-    v-else
-  >Sorry, das anzeigen von Audio funktioniert in deinem Browser noch nicht. Hören kannst du aber trotzdem.</div>
+  <div>
+    <div class="waveform" :id="id"></div>
+  </div>
 </template>
 
 <script>
