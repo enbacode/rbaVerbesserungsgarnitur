@@ -29,14 +29,17 @@
         </b-card>
         <b-card title="Entwickleroptionen">
           <b-card-text>
-            <b-button variant="danger" v-b-modal="'modal-storage-reinit'">Storage neu initialisieren</b-button>
-            <b-modal id="modal-storage-reinit" @ok="reinitializeStorage()">
-              <template v-slot:modal-title>
-                Warnung
-              </template>
-              <p class="my-2">Das reinitialisieren des Storages löscht alle getätigten Einstellungen</p>
-
-            </b-modal>
+            <b-form-group 
+              description="Löscht den kompletten Inhalt des lokalen Storage und initialisiert ihn anschließend neu"
+            >
+              <b-button variant="danger" v-b-modal="'modal-storage-reinit'">Storage neu initialisieren</b-button>
+              <b-modal id="modal-storage-reinit" @ok="reinitializeStorage()">
+                <template v-slot:modal-title>
+                  Warnung
+                </template>
+                <p class="my-2">Das reinitialisieren des Storages löscht alle getätigten Einstellungen</p>
+              </b-modal>
+            </b-form-group>
           </b-card-text>
         </b-card>
       </b-col>
