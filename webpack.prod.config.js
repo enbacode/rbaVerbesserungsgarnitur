@@ -21,7 +21,16 @@ module.exports = {
                 test: /\.s[ac]ss$/i,
                 use: [
                     'css-loader',
-                    'sass-loader'
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                          sassOptions: {
+                            indentWidth: 4,
+                            outputStyle: 'expanded',
+                            includePaths: ['absolute/path/a', 'absolute/path/b'],
+                          },
+                        },
+                      },
                 ],
             },
             {
