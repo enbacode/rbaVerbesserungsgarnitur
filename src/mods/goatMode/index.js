@@ -9,13 +9,11 @@ export default {
     target: 'board',
     inject: () => {
 
-        $(document).ready(() => {
-            document.querySelectorAll('img.userAvatarImage').forEach((e) => {
-                e.src = 'https://placegoat.com/128/128'
-            })
-            document.querySelector('.pageHeaderLogoLarge').src = 'https://placegoat.com/415/254'
-            document.body.innerHTML.replace('RBA', 'Ziegen')
+        document.querySelectorAll('img.userAvatarImage').forEach((e) => {
+            e.src = 'https://placegoat.com/128/128'
         })
+        document.querySelector('.pageHeaderLogoLarge').src = 'https://placegoat.com/415/254'
+        document.body.innerHTML.replace('RBA', 'Ziegen')
 
         walk(document.body)
 
