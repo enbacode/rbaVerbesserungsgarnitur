@@ -67,6 +67,10 @@ module.exports = {
                     name: '[name].[ext]'
                 }
             },
+            {
+                test: /\.txt$/i,
+                use: 'raw-loader',
+            },
         ],
     },
     plugins: [

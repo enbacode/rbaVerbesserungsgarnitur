@@ -64,6 +64,15 @@ module.exports = {
                     name: '[name].[ext]'
                 }
             },
+            {
+                test: /\.txt$/i,
+                use: {
+                    loader: 'html-loader',
+                    options: {
+
+                    }
+                }
+            },
         ],
     },
     plugins: [

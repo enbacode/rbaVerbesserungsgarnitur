@@ -11,7 +11,7 @@
                   <b-form-group>
                     <b-form-checkbox
                       v-model="mod.active"
-                      @change="changesSaved = false"
+                      @change="modsSaved = false"
                     >{{ mod.description }}</b-form-checkbox>
                     <div class="ml-4">
                       <small v-html="mod.longDescription"></small>
@@ -21,8 +21,8 @@
                 </div>
               </div>
               <b-form-group>
-                <b-button v-if="!changesSaved" @click="saveMods()" variant="primary">Speichern</b-button>
-                <b-button v-if="changesSaved" disabled variant="primary">Gespeichert</b-button>
+                <b-button v-if="!modsSaved" @click="saveMods()" variant="primary">Speichern</b-button>
+                <b-button v-if="modsSaved" disabled variant="primary">Gespeichert</b-button>
               </b-form-group>
             </b-form>
           </b-card-text>
@@ -39,6 +39,16 @@
                 </template>
                 <p class="my-2">Das reinitialisieren des Storages löscht alle getätigten Einstellungen</p>
               </b-modal>
+            </b-form-group>
+            <b-form-group>
+              <b-form-checkbox v-model="settings.logging.active">
+                Logging aktivieren
+              </b-form-checkbox>
+              <b-form-select v-model="settings.logging.level" :options="['debug', 'info', 'warn', 'error']"></b-form-select>
+            </b-form-group>
+            <b-form-group>
+                <b-button v-if="!settingsSaved" @click="saveSettings()" variant="primary">Speichern</b-button>
+                <b-button v-if="settingsSaved" disabled variant="primary">Gespeichert</b-button>
             </b-form-group>
           </b-card-text>
         </b-card>
@@ -58,11 +68,13 @@ export default {
   data() {
     return {
       mods: [],
-      changesSaved: false,
+      modsSaved: false,
+      settingsSaved: false,
       targets: {
         board: "Forum",
         rba: "RBA"
-      }
+      },
+      settings: {}
     };
   },
 
@@ -70,7 +82,7 @@ export default {
     async saveMods() {
       await vg.storeMods(this.mods)
       this.mods = this.mods.filter(p => p.enabled && p.showInOptions)
-      this.changesSaved = true;
+      this.modsSaved = true;
       this.$bvToast.toast(
         "Lade die RBA- bzw. Forenseite neu, um deine Änderungen wirksam zu machen.",
         {
@@ -79,6 +91,10 @@ export default {
           toaster: "b-toaster-top-center"
         }
       );
+    },
+    async saveSettings() {
+      await vg.setSettings(this.settings)
+      this.settingsSaved = true
     },
     async reinitializeStorage() {
       console.log('works')
@@ -94,6 +110,7 @@ export default {
     this.mods = (await vg.storedMods())
       .filter(p => p.enabled)
       .filter(p => p.showInOptions);
+    this.settings = await vg.getSettings()
   }
 };
 </script>

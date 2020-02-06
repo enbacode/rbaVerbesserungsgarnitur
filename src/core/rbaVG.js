@@ -7,12 +7,37 @@ import ThreadPage from './board/threadPage'
 import ThreadList from './board/threadList'
 import Battle from './rba/battle'
 
+import greeting from './greeting.txt'
+
 
 export default {
     availableMods: availableMods,
 
     ajax: ajaxHelper,
     battle: Battle,
+
+    manifest: browser.runtime.getManifest(),
+
+    defaultSettings: {
+        logging: {
+            active: true,
+            level: 'info'
+        }
+    },
+
+    _settings: null,
+
+    async getSettings() {
+        if(this._settings)
+            return this._settings
+        return (await browser.storage.local.get('settings')).settings
+            
+    },
+
+    async setSettings(settings) {
+        this._settings = settings
+        await browser.storage.local.set({ settings: settings })
+    },
 
     async isActive() {
         try {
@@ -110,10 +135,17 @@ export default {
     },
 
     async initSelf() {
+
+        //initialize storage 'active' setting
         await browser.storage.local.set({'active': true})
+        this.setSettings(this.defaultSettings)
     },
 
     initPage() {
+
+        //log a greeting to the console
+        this.log('always', `${greeting}\n${this.manifest.short_name} v${this.manifest.version}`)
+
         //TODO there must be a less ugly way to init currentPage
         if(window.location.href.match(StartPage.match()))
             this.currentPage = new StartPage(document.body)
@@ -121,5 +153,41 @@ export default {
             this.currentPage = new ThreadPage(document.body)
         else if(window.location.href.match(ThreadList.match()))
             this.currentPage = new ThreadList(document.body)
+    },
+
+    log(logLevel, message) {
+        const logArgs = Array.prototype.slice.call(arguments).slice(2)
+        let consoleArgs = [message]
+        if(logArgs.length > 0)
+            consoleArgs = [message, logArgs]
+            
+        if(logLevel == 'always') {
+            console.log(...consoleArgs)
+            return
+        }
+        const settings = this.getSettings().then(settings => {
+            const logLevels = {
+                'debug': 0,
+                'info': 1,
+                'warn': 2,
+                'error': 3
+            }
+            if(settings.logging.active && logLevels[logLevel] >= logLevels[settings.logging.level]) {
+                switch(logLevel) {
+                    case 'debug':
+                        console.debug(message, logArgs)
+                        break;
+                    case 'info':
+                        console.info(message, logArgs)
+                        break;
+                    case 'warn':
+                        console.warn(message, logArgs)
+                        break;
+                    case 'error':
+                        console.error(message, logArgs)
+                        break;
+                }
+            }
+        })
     }
 }
