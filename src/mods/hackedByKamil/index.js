@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import anime from 'animejs'
 
 export default {
@@ -9,12 +8,32 @@ export default {
     showInOptions: false,
     target: 'board',
     inject: () => {
-        $(document).ready(() => {
-            $('.copyright a').text('HaCKeD by Kamil').attr('href', '#').click(e => {
+            const copyright = document.querySelector('.copyright a')
+            copyright.innerHTML = 'HaCKeD by Kamil'
+            copyright.href = '#'
+            copyright.addEventListener('click', e => {
                 e.preventDefault()
-                $('body').append('<div id="overlay"><div id="overlayContainer">HaCKeD by Kamil</div></div>')
-                $('#overlay').css('position', 'absolute').css('width', '100vw').css('height', '100vh').css('position', 'fixed').css('top', 0).css('left', 0).css('z-index', 100).css('opacity', 0)
-                $('#overlayContainer').css('display', 'flex').css('align-items', 'center').css('justify-content', 'center').css('font-size', '70px').css('font-weight', '900').css('color', 'red').css('height', '100%')
+                const overlayContainer = document.createElement('div')
+                overlayContainer.style.position = 'fixed'
+                overlayContainer.style.width = '100vw'
+                overlayContainer.style.height = '100vh'
+                overlayContainer.style.top = 0
+                overlayContainer.style.left = 0
+                overlayContainer.style.zIndex = 100
+                overlayContainer.style.opacity = 0
+
+                const overlay = document.createElement('div')
+                overlay.style.display = 'flex'
+                overlay.style.alignItems = 'center'
+                overlay.style.justifyContent = 'center'
+                overlay.style.fontSize = '70px'
+                overlay.style.fontWeight = 900
+                overlay.style.color = 'red'
+                overlay.style.height = '100%'
+
+                overlayContainer.appendChild(overlay)
+                document.body.appendChild(overlayContainer)
+                document.querySelectorAll('.tabularBox').forEach(e => e.style.overflow = 'visible')
                 anime({
                     targets: document.getElementById('overlay'),
                     opacity: 1,
@@ -25,8 +44,7 @@ export default {
                     duration: 5000,
                     complete: () => document.getElementById('overlay').remove()
                 })
-                $('.tabularBox').css('overflow', 'visible')
-                $('a, i, img, .tabularListRow, h1, h2, h3, p, aside .box, .containerList li, dl, .pageNavigation, .boxMenuLink').each((i, e) => {
+                document.querySelectorAll('a, i, img, .tabularListRow, h1, h2, h3, p, aside .box, .containerList li, dl, .pageNavigation, .boxMenuLink').forEach(e => {
                     anime({
                         targets: e,
                         opacity: 0,
@@ -48,8 +66,6 @@ export default {
                     })
                 })
             })
-        })
-
     }
 }
 
