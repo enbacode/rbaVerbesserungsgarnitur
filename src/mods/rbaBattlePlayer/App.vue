@@ -9,7 +9,7 @@
       </b-button>
     </td>
     <td colspan="3" class="padRight">
-      <audio-player ref="player" :src="link"></audio-player>
+      <audio-player ref="player" :src="link" @finish="playing = false"></audio-player>
     </td>
   </tr>
 </template>
