@@ -1,6 +1,9 @@
 import Page from './page'
 import Thing from './thing'
 
+/**
+ * represents the board start page
+ */
 export default class StartPage extends Page {
 
     constructor(obj) {
@@ -8,6 +11,7 @@ export default class StartPage extends Page {
         this.load(obj)
     }
 
+    
     parse() {
 
         this.newPosts = [...this.htmlElement
@@ -23,6 +27,9 @@ export default class StartPage extends Page {
             .map(e => new Thing(e, () => window.location.href = e.querySelector('h3 a').href))
     }
 
+    /**
+     * returns a list of things on the start page
+     */
     get things() {
         return [
             ...this.newPosts,
@@ -31,6 +38,10 @@ export default class StartPage extends Page {
         ]
     }
 
+    /**
+     * returns a regex which determines if the object
+     * is a representation of the URL
+     */
     static match() {
         return /rbaforum\.de\/$/
     }

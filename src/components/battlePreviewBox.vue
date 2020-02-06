@@ -21,6 +21,7 @@
 <script>
 import RoundPreviewBox from "./roundPreviewBox.vue";
 import vg from "./../core/rbaVG";
+import Battle from '../core/rba/battle';
 
 export default {
   components: {
@@ -36,7 +37,7 @@ export default {
   },
 
   async created() {
-    let _battle = vg.battle.create(this.$root.$data.battleLink);
+    let _battle = new Battle(this.$root.$data.battleLink);
     await _battle.fetch();
     this.battle = _battle;
     this.loading = false;

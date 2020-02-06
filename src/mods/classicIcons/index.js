@@ -19,6 +19,7 @@ export default {
     inject: () => {
 
         $(document).ready(() => {
+            //replace all folder open icons
             vg.currentPage.htmlElement.querySelectorAll('.icon.icon32.fa-folder-open-o, .icon.icon32.fa-folder-open').forEach(e => {
                 e.classList.remove('fa-folder-open-o')
                 e.classList.remove('fa-folder-open')
@@ -27,6 +28,7 @@ export default {
                 e.appendChild(img)
             })
 
+            //replace all folder icons
             vg.currentPage.htmlElement.querySelectorAll('.icon.icon16.fa-folder-o, .icon.icon16.fa-folder').forEach(e => {
                 e.classList.remove('fa-folder-o')
                 e.classList.remove('fa-folder')
@@ -35,6 +37,7 @@ export default {
                 e.appendChild(img)
             })
 
+            //replace all avatars with thread icons
             vg.currentPage.htmlElement.querySelectorAll('.tabularListRow .wbbThread').forEach(e => {
                 const img = e.querySelector('.columnAvatar img')
                 img.setAttribute('width', '24')
@@ -51,7 +54,7 @@ export default {
                 else {
                     img.src = threadM
                 }
-
+                //replace user avatars of "last poster" with "goto last post"-arrow
                 const lastPosterImg = e.querySelector('.columnLastPost img')
                 if (lastPosterImg) {
                     lastPosterImg.setAttribute('width', '16')

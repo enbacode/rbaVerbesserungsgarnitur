@@ -1,10 +1,15 @@
 import vg from './core/rbaVG'
 import './manifest.json'
 
+//make sure we can use async/await
 (async () => {
 
+    //initialize to page mode
     vg.initPage()
+    //load stored mods
     const mods = await vg.storedMods()
+
+    //filter mods for target
     if (window.location.hostname == 'rbaforum.de')
         vg.inject(mods.filter(p => p.target == 'board'))
     else if (window.location.hostname == 'r-b-a.de')

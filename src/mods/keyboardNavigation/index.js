@@ -29,6 +29,7 @@ export default {
             let selectedThingIndex = -1
 
             document.addEventListener('keydown', e => {
+                //ignore keydowns if an editor element is selected
                 if (document.activeElement.classList.contains('redactor-layer')) {
                     document.activeElement.removeAttribute('data-focus-visible-added')
                     if (e.shiftKey && e.code == 'Backspace') {
@@ -38,17 +39,19 @@ export default {
                         return
                     }
                 }
+
+                //select next thing
                 if (e.code == 'KeyJ') {
                     if (selectedThingIndex < page.things.length - 1) {
                         if (selectedThingIndex >= 0)
                             page.things[selectedThingIndex].deselect()
                         selectedThingIndex++
                     }
-
                     page.things[selectedThingIndex].select()
 
                 }
 
+                //select previous thing
                 if (e.code == 'KeyK') {
                     if (selectedThingIndex > 0) {
                         page.things[selectedThingIndex].deselect()
@@ -59,34 +62,41 @@ export default {
 
                 }
 
+                //page back
                 if (e.code == 'KeyH') {
                     if (page.previousPage)
                         window.location.href = page.previousPage
                 }
 
+                //page forward
                 if (e.code == 'KeyL') {
                     if (page.nextPage)
                         window.location.href = page.nextPage
                 }
 
+                //cite current thing
                 if (e.code == 'KeyC') {
                     page.things[selectedThingIndex].htmlElement.querySelector('.jsQuoteMessage').dispatchEvent(new Event('click'))
                 }
 
+                //like current thing
                 if (e.code == 'KeyB') {
                     page.things[selectedThingIndex].htmlElement.querySelector('.reactButton.button').dispatchEvent(new Event('click'))
                 }
 
+                //jump to new post box
                 if (e.code == 'KeyN') {
                     e.preventDefault()
                     page.htmlElement.querySelector('.messageQuickReplyContent').dispatchEvent(new Event('click'))
                     page.htmlElement.querySelector('.messageQuickReplyContent').scrollIntoView()
                 }
 
+                //go to start page
                 if (e.code == 'KeyS') {
                     window.location.href = 'https://rbaforum.de'
                 }
 
+                //perform action on selected thing
                 if (e.code == 'Enter') {
                     page.things[selectedThingIndex].performAction()
                 }

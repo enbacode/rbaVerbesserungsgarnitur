@@ -1,23 +1,34 @@
 import browser from 'webextension-polyfill'
 import availableMods from '../availableMods'
-import ajaxHelper from './ajax'
+import ajax from './ajax'
 
 import StartPage from './board/startPage'
 import ThreadPage from './board/threadPage'
 import ThreadList from './board/threadList'
-import Battle from './rba/battle'
 
 import greeting from './greeting.txt'
 
 
 export default {
+
+    /**
+     * all available mods included in the bundle
+     */
     availableMods: availableMods,
 
-    ajax: ajaxHelper,
-    battle: Battle,
+    /**
+     * provides ajax calls that get dispatched to the background page
+     */
+    ajax: ajax,
 
+    /**
+     * the WebExtension manifest as object
+     */
     manifest: browser.runtime.getManifest(),
 
+    /**
+     * the rbaVG default general settings
+     */
     defaultSettings: {
         logging: {
             active: true,
@@ -25,8 +36,14 @@ export default {
         }
     },
 
+    /**
+     * settings caching object
+     */
     _settings: null,
 
+    /**
+     * returns the rbaVG general settings
+     */
     async getSettings() {
         if(this._settings)
             return this._settings
@@ -34,11 +51,19 @@ export default {
             
     },
 
+    /**
+     * stores the provided general settings in LocalStorage
+     * and sets the cached settings object
+     * @param {Object} settings 
+     */
     async setSettings(settings) {
         this._settings = settings
         await browser.storage.local.set({ settings: settings })
     },
 
+    /**
+     * returns wether the "active" flag is set in store
+     */
     async isActive() {
         try {
             return (await browser.storage.local.get('active')).active
@@ -49,6 +74,10 @@ export default {
         } 
     },
 
+    /**
+     * 
+     * @param {Array} mods 
+     */
     async storeMods(mods) {
         //quickFix to make sure kamil is always showing
         const storedMods = await this.storedMods()
@@ -62,11 +91,13 @@ export default {
         //converting the object to json, then parsing it back is a quick and simple way to
         //get rid of all non-serializable objects
         toStore = JSON.parse(JSON.stringify(mods))
-        console.log(mods, toStore)
-        
+        //finally store the objects        
         await browser.storage.local.set({ mods: toStore })
     },
 
+    /**
+     * returns a list of mods with their respective settings from storage
+     */
     async storedMods() {
         try {
             let storedMods = await browser.storage.local.get('mods')
@@ -89,14 +120,25 @@ export default {
         }
     },
 
+    /**
+     * injects an array of mods into the page
+     * this only includes the JS, not the CSS.
+     * CSS gets injected as soon as the documentElement
+     * exists
+     * @param {Array} mods 
+     */
     inject(mods) {
         
+        //retrieve active state
         this.isActive().then((isActive) => {
 
             if(!isActive)
                 return
 
+            //filter out inactive & disabled mods
             mods.filter(p => p.enabled).filter(p => p.active).forEach((mod) => {
+                //make sure the mod's match property, if set, matches the location
+                // and inject function exists.
                 const modMatchesLocation = window.location.href.match(mod.match)
                 if (mod.match && modMatchesLocation || !mod.match) {
                     if (typeof mod.inject != 'undefined') {
@@ -110,6 +152,13 @@ export default {
         
     },
 
+    /**
+     * initializes mods with default values if none are present in storage
+     * or merges stored and default values. 
+     * 
+     * this only needs to be called once per extension
+     * instance (e.g. in the background script)
+     */
     async initMods() {
 
         let storedMods = await this.storedMods()
@@ -134,13 +183,26 @@ export default {
 
     },
 
+    /**
+     * initializes basic functionality of rbaVG
+     * 
+     * this only needs to be called once per extension
+     * instance (e.g. in the background script)
+     */
     async initSelf() {
 
         //initialize storage 'active' setting
         await browser.storage.local.set({'active': true})
+        //initialize settings
         this.setSettings(this.defaultSettings)
     },
 
+    /**
+     * initializes page functionality.
+     * 
+     * this needs to be called once per page
+     * (e.g. in the content script)
+     */
     initPage() {
 
         //log a greeting to the console
@@ -154,17 +216,31 @@ export default {
         else if(window.location.href.match(ThreadList.match()))
             this.currentPage = new ThreadList(document.body)
     },
-
+    /**
+     * logs a message to the console if logging criteria is met
+     * (logging must be active, and logLevel must be higher or equal
+     * than the user's setting)
+     * @param {('debug'|'info'|'warning'|'error'|'always')} logLevel the log level
+     * @param {string} message the message
+     * @param {...any[]} optionalParams optional parameters passed to console.log
+     */
     log(logLevel, message) {
-        const logArgs = Array.prototype.slice.call(arguments).slice(2)
+        //get optionalParams from arguments object
+        const optionalParams = Array.prototype.slice.call(arguments).slice(2)
+
+        //if there are any optional params,
+        //add them to the console.log arguments array
         let consoleArgs = [message]
-        if(logArgs.length > 0)
-            consoleArgs = [message, logArgs]
-            
+        if(optionalParams.length > 0)
+            consoleArgs = [message, optionalParams]
+         
+        //logLevel always alwys gets logged huehuehue
         if(logLevel == 'always') {
             console.log(...consoleArgs)
             return
         }
+
+        //retrieve user settings
         const settings = this.getSettings().then(settings => {
             const logLevels = {
                 'debug': 0,
@@ -172,19 +248,20 @@ export default {
                 'warn': 2,
                 'error': 3
             }
+            //check active flag and log level
             if(settings.logging.active && logLevels[logLevel] >= logLevels[settings.logging.level]) {
                 switch(logLevel) {
                     case 'debug':
-                        console.debug(message, logArgs)
+                        console.debug(message, optionalParams)
                         break;
                     case 'info':
-                        console.info(message, logArgs)
+                        console.info(message, optionalParams)
                         break;
                     case 'warn':
-                        console.warn(message, logArgs)
+                        console.warn(message, optionalParams)
                         break;
                     case 'error':
-                        console.error(message, logArgs)
+                        console.error(message, optionalParams)
                         break;
                 }
             }

@@ -14,13 +14,17 @@ export default {
     category: 'feature',
     match: /index\.php\?thread(.*)/,
     inject: function () {
+        //TODO un-jq this
         $(document).ready(() => {
+            //get all links to battles on the current page
             $('a')
                 .filter(function () {
                     return this.href.match(/https?:\/\/(www.)?r-b-a.de\/index.php\?(.*)BATTLE=[0-9]+/)
                 })
                 .each((i, e) => {
+                    //create an entry point element for the Vue app
                     createBox(e)
+                    //create vue app (per link)
                     let app = new Vue({
                         el: '.boardBattlePreview',
                         data: {
@@ -37,7 +41,10 @@ export default {
 }
 
 
-
+/**
+ * creates the entry div for a vue app and appends it to e
+ * @param {HTMLElement} e the element to append the app div to.
+ */
 function createBox(e) {
     $(e).parent().append($('<div class="boardBattlePreview"></div>'))
     $(e).remove()

@@ -6,6 +6,7 @@ import './options.html'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+//create a groupBy function to group mods by category
 Array.prototype.groupBy = function(prop) {
 	return this.reduce(function(groups, item) {
 		const val = item[prop]
