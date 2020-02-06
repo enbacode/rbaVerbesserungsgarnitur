@@ -13,29 +13,28 @@ export default {
 	longDescription: 'Zeigt einen Player auf Battleseiten, damit Runden direkt im Browser angehört werden können',
 	target: 'rba',
 	inject: function() {
-		$(document).ready(() => {
-			[...document.getElementsByTagName('a')]
-				.filter(p => p.href.match(/download.php\?.*\.mp3/))
-				.forEach(e => {
+		console.debug('rbaBattlePlayer: looking for mp3 links');
+		[...document.getElementsByTagName('a')]
+			.filter(p => p.href.match(/download.php\?.*\.mp3/))
+			.forEach(e => {
+				console.debug('rbaBattlePlayer: found link ', e)
+				const newRow = document.createElement('tr')
+				let roundRow = e.parentElement.parentElement || console.log('rbaBattlePlayer: unable to get grandparent element')
+				roundRow.parentElement.insertBefore(newRow, roundRow.nextElementSibling)
 
-					const newRow = document.createElement('tr')
-					let roundRow = e.parentElement.parentElement
-					roundRow.parentElement.insertBefore(newRow, roundRow.nextElementSibling)
-
-					let app = new Vue({
-						el: newRow,
-						data: {
-							link: e.href 
-						},
-					
-						render: h => h(App),
-						components: { App: App },
-						template: '<App />'
-					})
+				let app = new Vue({
+					el: newRow,
+					data: {
+						link: e.href 
+					},
+				
+					render: h => h(App),
+					components: { App: App },
+					template: '<App />'
 				})
+			})
 
-			
-		})
+		
 	}
 }
 

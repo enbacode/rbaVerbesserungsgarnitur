@@ -34,6 +34,9 @@ export default {
       this.playing = !this.playing;
       this.$refs.player.toggle();
     }
+  },
+  created() {
+    console.debug('rbaBattlePlayer: App created for ', this.link)
   }
 };
 </script>

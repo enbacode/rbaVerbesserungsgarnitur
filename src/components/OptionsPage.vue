@@ -40,13 +40,7 @@
                 <p class="my-2">Das reinitialisieren des Storages löscht alle getätigten Einstellungen</p>
               </b-modal>
             </b-form-group>
-            <b-form-group>
-              <b-form-checkbox v-model="settings.logging.active">
-                Logging aktivieren
-              </b-form-checkbox>
-              <b-form-select v-model="settings.logging.level" :options="['debug', 'info', 'warn', 'error']"></b-form-select>
-            </b-form-group>
-            <b-form-group>
+            <b-form-group v-if="false">
                 <b-button v-if="!settingsSaved" @click="saveSettings()" variant="primary">Speichern</b-button>
                 <b-button v-if="settingsSaved" disabled variant="primary">Gespeichert</b-button>
             </b-form-group>

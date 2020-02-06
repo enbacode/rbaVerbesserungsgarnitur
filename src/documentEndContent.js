@@ -15,6 +15,7 @@ import './manifest.json'
     else if (window.location.hostname == 'r-b-a.de')
         vg.inject(mods.filter(p => p.target == 'rba'))
 
+    //konami
     let allowedKeys = {
         37: 'left',
         38: 'up',

@@ -8,7 +8,6 @@ import ThreadList from './board/threadList'
 
 import greeting from './greeting.txt'
 
-
 export default {
 
     /**
@@ -30,10 +29,6 @@ export default {
      * the rbaVG default general settings
      */
     defaultSettings: {
-        logging: {
-            active: true,
-            level: 'info'
-        }
     },
 
     /**
@@ -128,28 +123,37 @@ export default {
      * @param {Array} mods 
      */
     inject(mods) {
-        
+        console.debug('vg.inject: entering')
         //retrieve active state
         this.isActive().then((isActive) => {
 
-            if(!isActive)
+            if(!isActive) {
+                console.info('vg.inject: vg is inactive, not injecting anything')
                 return
+            }
 
             //filter out inactive & disabled mods
-            mods.filter(p => p.enabled).filter(p => p.active).forEach((mod) => {
+            mods = mods.filter(p => p.enabled).filter(p => p.active)
+            console.info('vg.inject: trying to inject these mods: ', mods)
+
+            mods.forEach((mod) => {
                 //make sure the mod's match property, if set, matches the location
                 // and inject function exists.
                 const modMatchesLocation = window.location.href.match(mod.match)
                 if (mod.match && modMatchesLocation || !mod.match) {
                     if (typeof mod.inject != 'undefined') {
+                        console.debug('vg.inject: injecting mod', mod)
                         mod.inject()
+                    }
+                    else {
+                        console.debug('vg.inject: nothing to inject', mod)
                     }
                 }
             })
 
+            console.info('vg.inject: mod injection complete')
+
         })
-        
-        
     },
 
     /**
@@ -160,9 +164,11 @@ export default {
      * instance (e.g. in the background script)
      */
     async initMods() {
-
-        let storedMods = await this.storedMods()
+        console.debug('vg.initMods: entering')
         
+        let storedMods = await this.storedMods()
+        console.debug('vg.initMods: loaded mods from storage', storedMods)
+
         let mods = availableMods.map((mod) => {
             const storedMod = storedMods.find(p => p.name == mod.name)
             mod.active = true
@@ -170,17 +176,17 @@ export default {
             mod.showInOptions = (mod.showInOptions === false ? false : true)
             if(mod.style)
                 mod.styleString = mod.style[0][1]
-            if(storedMod)
+            if(storedMod) {
+                console.debug('vg.initMods: merging bundle with storage for', mod, storedMod)
                 mod = {...mod, ...storedMod}
-            delete mod.inject
-            delete mod.style
+            }
             return mod
         })
-        
+        console.debug('vg.initMods: sending these mods to storage', mods)
         await browser.storage.local.set({ 'mods': 
             mods
         })
-
+        console.info('vg.initMods: initialization complete', mods)
     },
 
     /**
@@ -191,10 +197,16 @@ export default {
      */
     async initSelf() {
 
+        console.debug('vg.initSelf: entering')
+        
         //initialize storage 'active' setting
         await browser.storage.local.set({'active': true})
+        
         //initialize settings
+        console.debug('vg.initSelf: applying these default settings', this.defaultSettings)
         this.setSettings(this.defaultSettings)
+        
+        console.info('vg.initSelf: initialization complete')
     },
 
     /**
@@ -204,9 +216,8 @@ export default {
      * (e.g. in the content script)
      */
     initPage() {
-
         //log a greeting to the console
-        this.log('always', `${greeting}\n${this.manifest.short_name} v${this.manifest.version}`)
+        console.info(`%c${greeting}\n${this.manifest.short_name} v${this.manifest.version}`, 'color: #007bff; font-weight: 900; background-color: orange; font-size: 12pt;')
 
         //TODO there must be a less ugly way to init currentPage
         if(window.location.href.match(StartPage.match()))
@@ -215,56 +226,8 @@ export default {
             this.currentPage = new ThreadPage(document.body)
         else if(window.location.href.match(ThreadList.match()))
             this.currentPage = new ThreadList(document.body)
+        console.info('vg.initPage: initialization complete')
+        
+        
     },
-    /**
-     * logs a message to the console if logging criteria is met
-     * (logging must be active, and logLevel must be higher or equal
-     * than the user's setting)
-     * @param {('debug'|'info'|'warning'|'error'|'always')} logLevel the log level
-     * @param {string} message the message
-     * @param {...any[]} optionalParams optional parameters passed to console.log
-     */
-    log(logLevel, message) {
-        //get optionalParams from arguments object
-        const optionalParams = Array.prototype.slice.call(arguments).slice(2)
-
-        //if there are any optional params,
-        //add them to the console.log arguments array
-        let consoleArgs = [message]
-        if(optionalParams.length > 0)
-            consoleArgs = [message, optionalParams]
-         
-        //logLevel always alwys gets logged huehuehue
-        if(logLevel == 'always') {
-            console.log(...consoleArgs)
-            return
-        }
-
-        //retrieve user settings
-        const settings = this.getSettings().then(settings => {
-            const logLevels = {
-                'debug': 0,
-                'info': 1,
-                'warn': 2,
-                'error': 3
-            }
-            //check active flag and log level
-            if(settings.logging.active && logLevels[logLevel] >= logLevels[settings.logging.level]) {
-                switch(logLevel) {
-                    case 'debug':
-                        console.debug(message, optionalParams)
-                        break;
-                    case 'info':
-                        console.info(message, optionalParams)
-                        break;
-                    case 'warn':
-                        console.warn(message, optionalParams)
-                        break;
-                    case 'error':
-                        console.error(message, optionalParams)
-                        break;
-                }
-            }
-        })
-    }
 }
