@@ -17,6 +17,7 @@ export default {
                 const objectID = e.getAttribute('data-object-id')
                 let likeCount = $(e).find('.reactCountButton[data-reaction-type-id="2"] .reactionCount').text()
                 const likeText = $(e).find('.reactionSummaryList')
+                likeText.css("display", "block")
                 likeText.empty()
                 if (likeCount)
                     likeText.html(`Es haben sich bereits ${likeCount} Benutzer bedankt`)
@@ -28,6 +29,7 @@ export default {
                     ajax.post('https://rbaforum.de/index.php?ajax-proxy&t=' + ajax.getSecurityToken(), formData)
                         .then((response) => {
                             likeCount = response.response.data.returnValues.reactions[2]
+                            
                             if (likeCount)
                                 likeText.html(`Es haben sich bereits ${likeCount} Benutzer bedankt`)
                             else
