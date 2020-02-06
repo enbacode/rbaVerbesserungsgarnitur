@@ -13,6 +13,11 @@
       <b-media-body class="ml-3">
         <p class="mb-0">
           <audio-player :src="roundObj.mp3" ref="player"></audio-player>
+          <div class="loadingSpinner" v-show="this.loading">
+            <div class="text-center">
+              <b-spinner></b-spinner>
+            </div>
+          </div>
         </p>
       </b-media-body>
     </b-media>
@@ -70,7 +75,9 @@ export default {
   },
   props: ["round"],
 
-  created() {}
+  mounted() {
+    this.$refs.player.$on('ready', () => this.loading = false)
+  }
 };
 </script>
 

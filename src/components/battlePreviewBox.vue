@@ -1,6 +1,6 @@
 <template>
   <b-card bg-variant="dark">
-    <div v-if="loading">Lädt...</div>
+    <div v-if="loading" class="text-center"><b-spinner></b-spinner></div>
     <div v-else>
       <div class="h2 mt-2">
         <a :href="battleLink" class="text-light">{{ battle.title }}</a>

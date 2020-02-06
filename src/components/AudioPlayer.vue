@@ -19,6 +19,7 @@ export default {
           .toString(36)
           .substring(7),
       playing: false,
+      loading: true,
       wavesurfer: {},
       backend: "WebAudio"
     };
@@ -45,6 +46,8 @@ export default {
       barRadius: 3,
       backend: this.backend
     });
+    this.wavesurfer.on('loading', progress => this.$emit('loadingProgressChanged', progress))
+    this.wavesurfer.on('ready', () => this.$emit('ready'))
     this.wavesurfer.load(this.src);
   }
 };
