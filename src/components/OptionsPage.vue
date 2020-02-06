@@ -48,8 +48,21 @@
         </b-card>
       </b-col>
     </b-row>
-	<b-row class="my-3 d-flex justify-content-center font-weight-light">
-		<small>s/o an benger für das Bereitstellen der Icons</small>
+  <p class="my-3 text-center text-muted">
+    <a class="text-reset" href="https://github.com/enbacode/rbaVerbesserungsgarnitur">v{{manifest.version}}</a>
+  </p>
+	<b-row class="my-3 d-flex justify-content-center">
+		<b-btn v-b-modal="'modal-thanks'" variant="outline-primary"><img :src="this.thankThumb"></img> Bedankt!</b-btn>
+    <b-modal id="modal-thanks" cancel-disabled>
+      <div>
+        <img src="https://media.giphy.com/media/3o6ozm2sJ102JdumVq/giphy.gif"></img>
+      </div>
+      Danke an:
+      <ul>
+        <li>Benger, für die alten Icons</li>
+        <li><a href="http://www.freepik.com">Freepik</a>, für das Logo</li>
+      </ul>
+    </b-modal>
 	</b-row>
   </b-container>
 </template>
@@ -57,6 +70,7 @@
 <script>
 import browser from "webextension-polyfill";
 import vg from "./../core/rbaVG";
+import thankThumb from '../assets/thankS.png'
 
 export default {
   data() {
@@ -68,7 +82,9 @@ export default {
         board: "Forum",
         rba: "RBA"
       },
-      settings: {}
+      settings: {},
+      thankThumb: thankThumb,
+      manifest: vg.manifest 
     };
   },
 
