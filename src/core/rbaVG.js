@@ -183,9 +183,7 @@ export default {
             return mod
         })
         console.debug('vg.initMods: sending these mods to storage', mods)
-        await browser.storage.local.set({ 'mods': 
-            mods
-        })
+        await this.storeMods(mods)
         console.info('vg.initMods: initialization complete', mods)
     },
 
