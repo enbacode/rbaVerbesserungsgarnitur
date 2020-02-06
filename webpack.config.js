@@ -6,7 +6,7 @@ module.exports = {
     mode: 'development',
     devtool: 'inline-source-map',
     entry: {
-        content: './src/content.js',
+        documentEndContent: './src/documentEndContent.js',
         background: './src/background.js',
         options: './src/options.js',
         popup: './src/popup.js',

@@ -19,7 +19,7 @@
         "*://*.r-b-a.de/*"
       ],
       "js": [
-        "content.js"
+        "documentEndContent.js"
       ]
     },
     {
