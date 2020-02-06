@@ -2,7 +2,7 @@
   <b-container class="mt-3">
     <b-row>
       <b-col>
-        <b-card title="Mods">
+        <b-card title="Mods" class="mb-3">
           <b-card-text>
             <b-form>
               <div v-for="(modCategory, k) in mods.groupBy('target')" v-bind:key="k">
@@ -21,10 +21,22 @@
                 </div>
               </div>
               <b-form-group>
-                <b-button v-if="!changesSaved" @click="save()" variant="primary">Speichern</b-button>
+                <b-button v-if="!changesSaved" @click="saveMods()" variant="primary">Speichern</b-button>
                 <b-button v-if="changesSaved" disabled variant="primary">Gespeichert</b-button>
               </b-form-group>
             </b-form>
+          </b-card-text>
+        </b-card>
+        <b-card title="Entwickleroptionen">
+          <b-card-text>
+            <b-button variant="danger" v-b-modal="'modal-storage-reinit'">Storage neu initialisieren</b-button>
+            <b-modal id="modal-storage-reinit" @ok="reinitializeStorage()">
+              <template v-slot:modal-title>
+                Warnung
+              </template>
+              <p class="my-2">Das reinitialisieren des Storages löscht alle getätigten Einstellungen</p>
+
+            </b-modal>
           </b-card-text>
         </b-card>
       </b-col>
@@ -52,7 +64,7 @@ export default {
   },
 
   methods: {
-    async save() {
+    async saveMods() {
       await vg.storeMods(this.mods)
       this.mods = this.mods.filter(p => p.enabled && p.showInOptions)
       this.changesSaved = true;
@@ -64,6 +76,14 @@ export default {
           toaster: "b-toaster-top-center"
         }
       );
+    },
+    async reinitializeStorage() {
+      console.log('works')
+      await browser.storage.local.remove("mods")
+      await browser.storage.local.remove("active")
+      await vg.initSelf()
+      await vg.initMods()
+      window.location.reload()
     }
   },
 
