@@ -20,9 +20,16 @@
       ],
       "js": [
         "content.js"
+      ]
+    },
+    {
+      "run_at": "document_start",
+      "matches": [
+        "*://*.rbaforum.de/*",
+        "*://*.r-b-a.de/*"
       ],
-      "css": [
-        "css/noFOUC.css"
+      "js": [
+        "documentStartContent.js"
       ]
     }
   ],
