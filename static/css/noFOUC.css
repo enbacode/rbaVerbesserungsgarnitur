@@ -1,9 +1,0 @@
-#pageContainer {
-    opacity: 0;
-    transition: opacity 50ms ease-in;
-
-}
-
-.fadeIn {
-    opacity: 1 !important;
-}

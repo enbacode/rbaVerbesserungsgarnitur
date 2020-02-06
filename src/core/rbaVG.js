@@ -1,6 +1,5 @@
 import browser from 'webextension-polyfill'
 import availableMods from '../availableMods'
-import Styler from '../styler'
 import ajaxHelper from './ajax'
 
 import StartPage from './board/startPage'
@@ -58,20 +57,15 @@ export default {
             if(!isActive)
                 return
 
-            const styler = new Styler()
-
             mods.filter(p => p.enabled).filter(p => p.active).forEach((mod) => {
                 const modMatchesLocation = window.location.href.match(mod.match)
                 if (mod.match && modMatchesLocation || !mod.match) {
-                    if (mod.style)
-                        styler.add(mod.style)
                     if (typeof mod.inject != 'undefined') {
                         mod.inject()
                     }
                 }
             })
 
-            styler.appendStyle(document.head)
         })
         
         
@@ -85,6 +79,8 @@ export default {
             mod.active = true
             mod.enabled = (mod.enabled === false ? false : true)
             mod.showInOptions = (mod.showInOptions === false ? false : true)
+            if(mod.style)
+                mod.styleString = mod.style[0][1]
             delete mod.inject
             delete mod.style
             return mod
