@@ -25,7 +25,10 @@ export default {
     },
 
     async storeMods(mods) {
-        await browser.storage.local.set({ mods: mods })
+        //FF throws an error when trying to save objects that have non-serializable members
+        //converting the object to json, then parsing it back is a quick and simple way to
+        //get rid of all non-serializable objects 
+        await browser.storage.local.set({ mods: JSON.parse(JSON.stringify(mods)) })
     },
 
     async storedMods() {

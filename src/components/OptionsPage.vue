@@ -53,7 +53,7 @@ export default {
 
   methods: {
     async save() {
-      await browser.storage.local.set({ mods: this.mods });
+      await vg.storeMods(this.mods)
       this.changesSaved = true;
       this.$bvToast.toast(
         "Lade die RBA- bzw. Forenseite neu, um deine Änderungen wirksam zu machen.",
