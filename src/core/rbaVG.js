@@ -25,12 +25,20 @@ export default {
     },
 
     async storeMods(mods) {
+        //quickFix to make sure kamil is always showing
+        const storedMods = await this.storedMods()
+        let toStore = mods
+        storedMods.forEach(mod => {
+            const toStoreEquivalent = toStore.find(p => p.name == mod.name)
+            if(!toStoreEquivalent)
+                toStore.push(mod)
+        })
         //FF throws an error when trying to save objects that have non-serializable members
         //converting the object to json, then parsing it back is a quick and simple way to
         //get rid of all non-serializable objects
-        const rawStored = await browser.storage.local.get('mods')
-        const toStore = [...JSON.parse(JSON.stringify(mods)), ]
-        console.log(toStore)
+        toStore = JSON.parse(JSON.stringify(mods))
+        console.log(mods, toStore)
+        
         await browser.storage.local.set({ mods: toStore })
     },
 

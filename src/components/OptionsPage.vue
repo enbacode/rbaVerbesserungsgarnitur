@@ -54,6 +54,7 @@ export default {
   methods: {
     async save() {
       await vg.storeMods(this.mods)
+      this.mods = this.mods.filter(p => p.enabled && p.showInOptions)
       this.changesSaved = true;
       this.$bvToast.toast(
         "Lade die RBA- bzw. Forenseite neu, um deine Änderungen wirksam zu machen.",
