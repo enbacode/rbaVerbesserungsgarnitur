@@ -34,10 +34,6 @@ export default {
   props: ["src"],
 
   mounted() {
-    //test for firefox
-    if (typeof InstallTrigger !== "undefined") {
-      this.backend = "MediaElement";
-    }
 
     this.wavesurfer = WaveSurfer.create({
       container: "#" + this.id,
