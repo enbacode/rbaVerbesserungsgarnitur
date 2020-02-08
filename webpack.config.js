@@ -66,12 +66,7 @@ module.exports = {
             },
             {
                 test: /\.txt$/i,
-                use: {
-                    loader: 'html-loader',
-                    options: {
-
-                    }
-                }
+                use: 'html-loader'
             },
         ],
     },
