@@ -13,6 +13,13 @@ export default {
     target: 'board',
     category: 'feature',
     match: /index\.php\?thread(.*)/,
+    options: {
+        autoload: {
+            title: 'MP3s direkt laden',
+            description: 'MP3s laden, sobald die Vorschaubox erstellt wird. Das führt dazu, dass der Downloadzähler einer Runde direkt erhöht wird, sobald die Vorschaubox lädt. Wenn du diese Option deaktivierst, wird die MP3 erst bei einem Klick auf Play geladen. Dafür kann vorher keine Wellenform angezeigt werden.',
+            value: true
+        }
+    },
     inject: function () {
         //TODO un-jq this
         $(document).ready(() => {

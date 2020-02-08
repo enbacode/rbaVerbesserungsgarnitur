@@ -12,11 +12,41 @@
                     <b-form-checkbox
                       v-model="mod.active"
                       @change="modsSaved = false"
-                    >{{ mod.description }}</b-form-checkbox>
+                    >{{ mod.description }} <a v-if="mod.options" href="#" @click="$event.preventDefault()" class="text-muted" v-b-toggle="`modal-mod-options-${mod.name}`"><b-icon-gear-fill /></a></b-form-checkbox>
                     <div class="ml-4">
                       <small v-html="mod.longDescription"></small>
                     </div>
-                    <div></div>
+                    <div class="ml-4">
+                    </div>
+                    <b-collapse :id="`modal-mod-options-${mod.name}`">
+                      <b-container fluid>
+                        <b-row>
+                          <b-col md="8">
+                            <b-card class="mt-2">
+                              <b-row v-for="(option, name) in mod.options" :key="name">
+                                <b-col v-if="typeof option.value ==='boolean'" class="mb-2">
+                                  <b-form-checkbox size="sm" v-model="option.value">{{ option.title }}</b-form-checkbox>
+                                  <div class="ml-4"><small><small>{{ option.description }}</small></small></div>
+                                </b-col>
+                                <b-col v-else class="mb-2">
+                                  <b-row>
+                                    <b-col cols="8">
+                                      <div><small>{{ option.title }}</small></div>
+                                      <div><small><small>{{ option.description }}</small></small></div>
+                                    </b-col>
+                                    <b-col cols="4">
+                                      <b-form-select v-if="option.choices" v-model="option.value" :options="option.choices" size="sm" />
+                                      <b-form-input v-else-if="typeof option.value === 'string'" type="text" v-model="option.value" size="sm" />
+                                      <b-form-input v-else-if="typeof option.value === 'number'" type="number" v-model="option.value" size="sm" />
+                                    </b-col>
+                                  </b-row>
+                                </b-col>
+                              </b-row>
+                            </b-card>
+                          </b-col>
+                        </b-row>
+                      </b-container>
+                    </b-collapse>
                   </b-form-group>
                 </div>
               </div>
@@ -90,6 +120,7 @@ export default {
 
   methods: {
     async saveMods() {
+      debugger;
       await vg.storeMods(this.mods)
       this.mods = this.mods.filter(p => p.enabled && p.showInOptions)
       this.modsSaved = true;
