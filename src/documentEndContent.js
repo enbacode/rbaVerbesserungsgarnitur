@@ -10,9 +10,9 @@ import './manifest.json'
     const mods = await vg.storedMods()
 
     //filter mods for target
-    if (window.location.hostname == 'rbaforum.de')
+    if (window.location.hostname.includes('rbaforum.de'))
         vg.inject(mods.filter(p => p.target == 'board'))
-    else if (window.location.hostname == 'r-b-a.de')
+    else if (window.location.hostname.includes('r-b-a.de'))
         vg.inject(mods.filter(p => p.target == 'rba'))
 
     //konami
