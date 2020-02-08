@@ -18,7 +18,14 @@ module.exports = {
                 test: /\.s[ac]ss$/i,
                 use: [
                     'css-loader',
-                    'sass-loader'
+                    ,{
+                        loader: 'sass-loader',
+                        options: {
+                            sassOptions: {
+                                outputStyle: 'expanded'
+                            }
+                        }
+                    }
                 ],
             },
             {
