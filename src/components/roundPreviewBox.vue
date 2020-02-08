@@ -2,7 +2,7 @@
   <b-card class="my-2" :header="roundObj.name" bg-variant="secondary" text-variant="white">
     <b-media no-body>
       <b-media-aside vertical-align="center">
-        <b-button variant="primary" size="lg" @click="toggle()">
+        <b-button variant="primary" size="lg" @click="toggle()" :disabled="this.loading">
           <span class="h1">
             <b-icon-pause-fill v-if="playing"></b-icon-pause-fill>
             <b-icon-play-fill v-else></b-icon-play-fill>
@@ -61,22 +61,31 @@ export default {
 
   methods: {
     toggle() {
-      this.playing = !this.playing;
-      this.$refs.player.toggle();
+      if(!this.playerReady) {
+        this.load()
+        return;
+      }
+      this.playing = !this.playing
+      this.$refs.player.toggle()
+    },
+    load() {
+      this.loading = true
+      this.$refs.player.load()
     }
   },
 
   data() {
     return {
-      loading: true,
+      loading: false,
       playing: false,
+      playerReady: false,
       roundObj: this.round
     };
   },
   props: ["round"],
 
   mounted() {
-    this.$refs.player.$on('ready', () => this.loading = false)
+    this.$refs.player.$on('ready', () => { this.loading = false; this.playerReady = true; this.toggle(); })
     this.$refs.player.$on('finish', () => this.playing = false)
   }
 };

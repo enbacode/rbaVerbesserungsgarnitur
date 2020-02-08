@@ -26,6 +26,10 @@ export default {
     toggle() {
       this.playing = !this.playing;
       this.wavesurfer.playPause();
+    },
+    load() {
+      this.state = 'loading'
+      this.wavesurfer.load(this.src);
     }
   },
 
@@ -41,12 +45,16 @@ export default {
       height: 60,
       barWidth: 3,
       barRadius: 3,
-      backend: this.backend
+      backend: this.backend,
+      playing: false,
+      state: 'initialized'
     });
-    this.wavesurfer.on('loading', progress => this.$emit('loadingProgressChanged', progress))
     this.wavesurfer.on('finish', () => this.$emit('finish'))
-    this.wavesurfer.on('ready', () => this.$emit('ready'))
-    this.wavesurfer.load(this.src);
+    this.wavesurfer.on('ready', () => {
+      this.state = 'ready'
+      this.$emit('ready')
+    })
+    
   }
 };
 </script>
