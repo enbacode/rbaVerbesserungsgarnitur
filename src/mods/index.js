@@ -13,6 +13,8 @@ export { default as classicIcons } from './classicIcons'
 export { default as hackedByKamil } from './hackedByKamil'
 export { default as goatMode } from './goatMode'
 export { default as rbaBattlePlayer } from './rbaBattlePlayer'
+export { default as sessionIDAde } from './sessionIDAde'
+
 
 
 

@@ -15,7 +15,9 @@ import {
     classicThreadAndBoardList,
     inlineBattleLinks,
     inch13EditorToolbarFix,
-    rbaBattlePlayer }
+    rbaBattlePlayer,
+    sessionIDAde
+    }
     from './mods'
 
 export default [
@@ -33,5 +35,6 @@ export default [
     keyboardNavigation,
     betterNewPostMarking,
     classicIcons,
-    rbaBattlePlayer
+    rbaBattlePlayer,
+    sessionIDAde
 ]
