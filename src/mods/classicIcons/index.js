@@ -5,6 +5,7 @@ import threadM from './boardIcons/threadM.png'
 import threadNewM from './boardIcons/threadNewM.png'
 import firstNewPost from './boardIcons/goToFirstNewPostS.png'
 import lastPost from './boardIcons/goToLastPostS.png'
+import bannedS from './boardIcons/bannedS.png'
 import style from './style.scss'
 
 import vg from './../../core/rbaVG'
@@ -35,6 +36,20 @@ export default {
                 let img = document.createElement('img')
                 img.src = boardS
                 e.appendChild(img)
+            })
+
+            //replace lock icon
+            vg.currentPage.htmlElement.querySelectorAll('.icon.icon16.fa-lock').forEach(e => {
+                let appendElement = e
+                if(e.classList.contains('jsUserBanned')) {
+                    e.style.display = 'none'
+                    appendElement = document.createElement('div')
+                    e.parentElement.parentElement.insertBefore(appendElement, e.parentElement.nextSibling)
+                }
+                e.classList.remove('fa-lock')
+                let img = document.createElement('img')
+                img.src = bannedS
+                appendElement.appendChild(img)
             })
 
             //replace all avatars with thread icons
