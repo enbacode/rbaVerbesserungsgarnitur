@@ -1,14 +1,14 @@
 export default {
     name: 'sessionIDAde',
     description: 'Session ID adé',
-    longDescription: 'Entfernt die Session ID aus der Addresszeile und der Zwischenablage',
+    longDescription: 'Entfernt die Session ID aus der Addresszeile des Browsers',
     category: 'feature',
     target: 'rba',
     options: {
         pollClipboard: {
             title: 'Zwischenablage überwachen',
-            description: 'Überwachdt die Zwischenablage auf Links mit Session ID und entfernt diese. Beachtet hierbei bitte, dass die ZWischenablage nur dann überwacht werden kann, wenn ihr auf r-b-a.de surft. Diese Option dient in erster Linie dazu, das kopieren von Links auf r-b-a.de ohne Session ID zu ermöglichen.',
-            value: true
+            description: '<div class="alert alert-warning mb-1" role="alert">Diese Einstellung verursacht unter Firefox Performanceprobleme</div>Überwacht die Zwischenablage auf Links mit Session ID und entfernt diese. Funktioniert nur, solange ihr auf der r-b-a.de-Website seid.',
+            value: false
         },
         pollInterval: {
             title: 'Überwachungsintervall',
@@ -17,6 +17,7 @@ export default {
         }
     },
     inject() {
+        
         //save location with SID
         const locationWithSID = window.location.href
         //now replace the current history entry (and with that, the omnibar URL) with one without SID 
@@ -39,6 +40,9 @@ export default {
                 console.info('session id in clipboard replaced')
             }
             
+        }
+        catch(e) {
+
         }
         finally {
             //TODO make this prettier
