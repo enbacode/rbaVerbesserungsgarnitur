@@ -56,6 +56,7 @@ export default {
             //replace all occurances of RBA, VBT, kay with
             //Ziegen, SchafBT, der Hirte
             v = v.replace(/\bRBA\b/g, 'Ziegen')
+            v = v.replace(/\brba\b/g, 'Ziegen')
             v = v.replace(/\bVBT\b/g, 'SchafBT')
             v = v.replace(/\bkay\b/g, 'der Hirte')
 
