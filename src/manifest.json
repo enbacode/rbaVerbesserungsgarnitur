@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "RBA Verbesserungsgarnitur",
   "short_name": "rbaVG",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "An enhancement extension for the RBA and its forum.",
   "author": "enba",
   "background": {
