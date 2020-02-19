@@ -1,5 +1,5 @@
 <template>
-  <tr>
+  <tr v-if="dest != 'beatecke'">
     <td colspan="1">
       <b-button variant="dark" @click="toggle()" class="ml-3" :disabled="loading">
         <span class="h4">
@@ -12,6 +12,16 @@
     <td colspan="3" class="padRight">
       <audio-player ref="player" :src="link" @finish="playing = false"></audio-player>
     </td>
+  </tr>
+  <tr v-else>
+    <b-button variant="dark" @click="toggle()" class="ml-3" :disabled="loading">
+      <span class="h4">
+        <b-icon-pause-fill v-if="playing"></b-icon-pause-fill>
+        <b-spinner v-else-if="loading" />
+        <b-icon-play-fill v-else></b-icon-play-fill>
+      </span>
+    </b-button>
+    <audio-player ref="player" :src="link" @finish="playing = false" class="waveform ml-3 padRight"></audio-player>
   </tr>
 </template>
 
@@ -28,7 +38,8 @@ export default {
       link: this.$root.$data.link,
       playing: false,
       loading: false,
-      playerReady: false
+      playerReady: false,
+      dest: this.$root.$data.dest
     };
   },
 
@@ -63,5 +74,10 @@ export default {
 <style scoped>
 .padRight {
   padding-right: 50px;
+}
+.waveform {
+  display: inline-block;
+  width: 80%;
+  vertical-align: middle;
 }
 </style>

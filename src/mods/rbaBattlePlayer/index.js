@@ -25,7 +25,8 @@ export default {
 				let app = new Vue({
 					el: newRow,
 					data: {
-						link: e.href 
+						link: e.href,
+						dest: window.location.href.match(/ID=8000/) ? 'beatecke' : 'battle'
 					},
 				
 					render: h => h(App),
