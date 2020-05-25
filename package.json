@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "watch": "npx webpack --watch",
-    "build": "npx webpack --config webpack.prod.config.js"
+    "build": "npx webpack --config webpack.prod.config.js",
+    "build-ff": "npx webpack --config webpack.firefox.prod.config.js"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^5.1.1",
