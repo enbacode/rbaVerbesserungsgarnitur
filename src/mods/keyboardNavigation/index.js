@@ -31,8 +31,8 @@ export default {
             document.addEventListener('keydown', e => {
                 //ignore keydowns if an editor element is selected
                 if (document.activeElement.classList.contains('redactor-layer') ||
-                    document.activeElement.tagName == 'textarea' ||
-                    document.activeElement.tagName == 'input') {
+                    document.activeElement.tagName.toLowerCase() == 'textarea' ||
+                    document.activeElement.tagName.toLowerCase() == 'input') {
                     document.activeElement.removeAttribute('data-focus-visible-added')
                     if (e.shiftKey && e.code == 'Backspace') {
                         page.things[selectedThingIndex].select()
