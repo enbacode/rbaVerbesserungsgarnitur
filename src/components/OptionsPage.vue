@@ -36,8 +36,9 @@
                                     </b-col>
                                     <b-col cols="4">
                                       <b-form-select v-if="option.choices" v-model="option.value" :options="option.choices" @change="modsSaved = false" size="sm" />
-                                      <b-form-input v-else-if="typeof option.value === 'string'" type="text" v-model="option.value" @change="modsSaved = false" size="sm" />
-                                      <b-form-input v-else-if="typeof option.value === 'number'" type="number" v-model="option.value" @change="this.modsSaved = false" size="sm" />
+                                      <b-form-input v-else-if="isNaN(option.value)" type="text" v-model="option.value" @change="modsSaved = false" size="sm" />
+                                      <b-form-input v-else-if="!isNaN(option.value) && option.range != null" type="range" :min="option.range[0]" :max="option.range[1]" v-model="option.value" @change="this.modsSaved = false; option.value = Number(option.value)" size="sm" />
+                                      <b-form-input v-else-if="!isNaN(option.value)" type="number" v-model="option.value" @change="this.modsSaved = false" size="sm" />
                                     </b-col>
                                   </b-row>
                                 </b-col>

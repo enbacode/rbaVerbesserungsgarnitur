@@ -18,7 +18,7 @@ export default {
       playing: false,
       loading: true,
       wavesurfer: {},
-      backend: "WebAudio"
+      backend: "WebAudio",
     };
   },
 
@@ -33,10 +33,25 @@ export default {
     }
   },
 
-  props: ["src"],
+  props: {
+    src: {
+      type: String,
+      default: ''
+    },
+    volume: {
+      type: Number,
+      default: 70
+    }
+  },
+
+  watch: {
+    volume(oldVal, newVal) {
+      this.wavesurfer.setVolume(Math.pow(oldVal, 2) / 10000)
+      this.$emit('volumeChanged', oldVal)
+    }
+  },
 
   mounted() {
-
     this.wavesurfer = WaveSurfer.create({
       container: "#" + this.id,
       waveColor: "#fff",
@@ -47,8 +62,9 @@ export default {
       barRadius: 3,
       backend: this.backend,
       playing: false,
-      state: 'initialized'
+      state: 'initialized',
     });
+    this.wavesurfer.setVolume(Math.pow(this.volume, 2) / 10000)
     this.wavesurfer.on('finish', () => this.$emit('finish'))
     this.wavesurfer.on('ready', () => {
       this.state = 'ready'

@@ -12,7 +12,7 @@
 
       <b-media-body class="ml-3">
         <p class="mb-0">
-          <audio-player :src="roundObj.mp3" ref="player"></audio-player>
+          <audio-player :src="roundObj.mp3" ref="player" :volume="Number(volume)"></audio-player>
           <div class="loadingSpinner" v-show="this.loading">
             <div class="text-center">
               <b-spinner></b-spinner>
@@ -23,6 +23,12 @@
     </b-media>
     <template v-slot:footer>
       <b-form-row>
+        <b-col sm="2">
+          <big>
+            <b-icon-volume-up-fill></b-icon-volume-up-fill>
+          </big>
+          <b-input type="range" v-model="volume" :min="0" :max="100" class="volume-slider"></b-input>
+        </b-col>
         <b-col sm="1">
           <big>
             <b-icon-person-fill></b-icon-person-fill>
@@ -52,7 +58,8 @@
 </template>
 
 <script>
-import AudioPlayer from "./AudioPlayer.vue";
+import AudioPlayer from "./AudioPlayer.vue"
+import browser from "webextension-polyfill"
 
 export default {
   components: {
@@ -74,17 +81,37 @@ export default {
     }
   },
 
+  watch: {
+    volume(newVal) {
+      browser.storage.local.get('volumes')
+      .then(data => {
+        const volumes = {
+          ...data.volumes,
+          [this.roundObj.id]: newVal
+        }
+        browser.storage.local.set({volumes: volumes})
+      })
+    }
+  },
+
   data() {
     return {
       loading: false,
       playing: false,
       playerReady: false,
-      roundObj: this.round
+      roundObj: this.round,
+      volume: this.defaultVolume.value
     };
   },
-  props: ["round"],
+  props: ["round", "defaultVolume"],
 
   mounted() {
+    browser.storage.local.get('volumes')
+    .then(data => {
+      if(data.volumes[this.roundObj.id]) {
+        this.volume = data.volumes[this.roundObj.id]
+      }
+    })
     this.$refs.player.$on('ready', () => { this.loading = false; this.playerReady = true; this.toggle(); })
     this.$refs.player.$on('finish', () => this.playing = false)
   }
@@ -97,6 +124,11 @@ export default {
 <style scoped src="bootstrap-vue/dist/bootstrap-vue.css">
 </style>
 <style scoped>
+.volume-slider {
+  width:89%;
+  position: relative;
+  top: 4px;
+}
 .btn-primary {
   background-color: orange !important;
 

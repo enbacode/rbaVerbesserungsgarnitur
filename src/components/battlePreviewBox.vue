@@ -11,7 +11,7 @@
       </div>
       <div class="rounds">
         <div v-for="round in battle.rounds" v-bind:key="round.index">
-          <round-preview-box :round="round"></round-preview-box>
+          <round-preview-box :round="round" :default-volume="defaultVolume"></round-preview-box>
         </div>
       </div>
     </div>
@@ -32,6 +32,7 @@ export default {
     return {
       loading: true,
       battleLink: this.$root.$data.battleLink,
+      defaultVolume: this.$root.$data.options.defaultVolume,
       battle: {}
     };
   },

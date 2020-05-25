@@ -51,6 +51,7 @@ export default class Battle {
                     index: i,
                     name: cols[0].children[0].innerHTML,
                     mp3: cols[0].children[0].href.replace('rbaforum', 'r-b-a'),
+                    id: /FILE=(\d+-\d)/.exec(cols[0].children[0].href.replace('rbaforum', 'r-b-a'))[1],
                     date: cols[1].innerHTML,
                     mc: cols[2].innerHTML,
                     downloads: cols[3].innerHTML,
