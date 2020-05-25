@@ -11,7 +11,7 @@
       </div>
       <div class="rounds">
         <div v-for="round in battle.rounds" v-bind:key="round.index">
-          <round-preview-box :round="round" :default-volume="defaultVolume"></round-preview-box>
+          <round-preview-box :round="round" :default-volume="defaultVolume" :index="round.index"></round-preview-box>
         </div>
       </div>
     </div>

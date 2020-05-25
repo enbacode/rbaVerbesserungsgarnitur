@@ -1,5 +1,6 @@
 import vg from '../rbaVG'
 import _ from 'lodash'
+import Round from './round'
 
 export default class Battle {
 
@@ -47,16 +48,9 @@ export default class Battle {
             let cols = row.cells
             //check if the current row contains round information (not comments)
             if(cols[0] && _.get(cols[0], 'children[0].tagName').toLowerCase() == 'a') {
-                round = {
-                    index: i,
-                    name: cols[0].children[0].innerHTML,
-                    mp3: cols[0].children[0].href.replace('rbaforum', 'r-b-a'),
-                    id: /FILE=(\d+-\d)/.exec(cols[0].children[0].href.replace('rbaforum', 'r-b-a'))[1],
-                    date: cols[1].innerHTML,
-                    mc: cols[2].innerHTML,
-                    downloads: cols[3].innerHTML,
-                    votes: []
-                }
+                round = new Round(cols[0].children[0].href.replace('rbaforum', 'r-b-a'))
+                round.index = i
+                round.parse(src)
                 _rounds.push(round)
                 i++
             }

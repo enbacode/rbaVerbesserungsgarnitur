@@ -8,8 +8,15 @@ import ThreadList from './board/threadList'
 
 import greeting from './greeting.txt'
 
+import Vue from 'vue'
+
 export default {
 
+    /**
+     * eventBus
+     */
+    eventBus: new Vue(),
+    
     /**
      * all available mods included in the bundle
      */

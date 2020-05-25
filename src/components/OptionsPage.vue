@@ -83,10 +83,10 @@
     <a class="text-reset" href="https://github.com/enbacode/rbaVerbesserungsgarnitur">v{{manifest.version}}</a>
   </p>
 	<b-row class="my-3 d-flex justify-content-center">
-		<b-btn v-b-modal="'modal-thanks'" variant="outline-primary"><img :src="this.thankThumb"></img> Bedankt!</b-btn>
+		<b-btn v-b-modal="'modal-thanks'" variant="outline-primary"><img :src="this.thankThumb" /> Bedankt!</b-btn>
     <b-modal id="modal-thanks" cancel-disabled>
       <div>
-        <img src="https://media.giphy.com/media/3o6ozm2sJ102JdumVq/giphy.gif"></img>
+        <img src="https://media.giphy.com/media/3o6ozm2sJ102JdumVq/giphy.gif" />
       </div>
       Danke an:
       <ul>

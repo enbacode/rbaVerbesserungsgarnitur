@@ -20,7 +20,12 @@ export default {
             value: 70,
             range: [0, 100],
             step: 1
-        }
+        },
+        autoPlay: {
+			title: 'Autoplay',
+			description: 'Automatisch die nächste Runde abspielen',
+			value: false
+		}
     },
     inject: function () {
         //TODO un-jq this
@@ -38,7 +43,7 @@ export default {
                         el: '.boardBattlePreview',
                         data: {
                             battleLink: $(e).attr('href'),
-                            options: this.options
+                            options: this.options,
                         },
                         render: h => h(boardBattlePreviewBox),
                         components: { Box: boardBattlePreviewBox },

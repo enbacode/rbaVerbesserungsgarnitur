@@ -1,83 +1,68 @@
 <template>
-  <tr v-if="dest != 'beatecke'">
-    <td colspan="1">
-      <b-button variant="dark" @click="toggle()" class="ml-3" :disabled="loading">
-        <span class="h4">
-          <b-icon-pause-fill v-if="playing"></b-icon-pause-fill>
-          <b-spinner v-else-if="loading" />
-          <b-icon-play-fill v-else></b-icon-play-fill>
-        </span>
-      </b-button>
-    </td>
-    <td colspan="3" class="padRight">
-      <audio-player ref="player" :src="link" @finish="playing = false"></audio-player>
-    </td>
-  </tr>
-  <tr v-else>
-    <b-button variant="dark" @click="toggle()" class="ml-3" :disabled="loading">
-      <span class="h4">
-        <b-icon-pause-fill v-if="playing"></b-icon-pause-fill>
-        <b-spinner v-else-if="loading" />
-        <b-icon-play-fill v-else></b-icon-play-fill>
-      </span>
-    </b-button>
-    <audio-player ref="player" :src="link" @finish="playing = false" class="waveform ml-3 padRight"></audio-player>
-  </tr>
+<tr>
+  <td colspan="4">
+  <RoundPreviewBox mini :round="round" :default-volume="options.defaultVolume" :playlist-container-id="playlistContainerId" :index="index" class="rba-player" />
+  </td>
+</tr>
 </template>
 
 <script>
 import AudioPlayer from "./../../components/AudioPlayer.vue";
+import RoundPreviewBox from "./../../components/roundPreviewBox.vue";
+import Battle from '../../core/rba/battle';
+import Round from '../../core/rba/round';
+
 
 export default {
   components: {
-    AudioPlayer
+    AudioPlayer,
+    RoundPreviewBox
   },
 
   data() {
     return {
       link: this.$root.$data.link,
-      playing: false,
-      loading: false,
-      playerReady: false,
-      dest: this.$root.$data.dest
+      round: new Round(this.$root.$data.link),
+      options: this.$root.$data.options,
+      index: this.$root.$data.index,
+      playlistContainerId: this.$root.$data.playlistContainerId
     };
-  },
-
-  methods: {
-    load() {
-      this.loading = true;
-      this.$refs.player.load()
-    },
-    toggle() {
-      if(!this.playerReady) {
-        this.load()
-        return
-      }
-      this.playing = !this.playing;
-      this.$refs.player.toggle();
-    }
   },
 
   created() {
     console.debug('rbaBattlePlayer: App created for ', this.link)
+    if(this.$root.$data.src)
+      this.round.parse(this.$root.$data.src)
+    else
+      this.round.fetch()
   },
-
-  mounted() {
-    this.$refs.player.$on('ready', () => { this.loading = false; this.playerReady = true; this.toggle(); })
-  }
 
 };
 </script>
 
 <style scoped src="./../../bootstrapCustom.scss"></style>
 
-<style scoped>
-.padRight {
-  padding-right: 50px;
+<style>
+
+.rba-player .volume-slider {
+  width: 70%;
+  position: relative;
+  top: -0.25rem;
 }
-.waveform {
-  display: inline-block;
-  width: 80%;
-  vertical-align: middle;
+
+.rba-player .volume-icon {
+  position: relative;
+  top: -0.65rem;
+}
+
+.rba-player .card-body {
+  padding: 0 10px;
+}
+
+.rba-player .card-footer {
+    padding: 5px 10px 3px !important;
+}
+.rba-player .media-body {
+  top: 7px;
 }
 </style>

@@ -6,6 +6,7 @@
 
 <script>
 import WaveSurfer from "wavesurfer.js";
+import vg from './../core/rbaVG.js'
 
 export default {
   data() {
@@ -30,6 +31,14 @@ export default {
     load() {
       this.state = 'loading'
       this.wavesurfer.load(this.src);
+    },
+    play() {
+      this.playing = true,
+      this.wavesurfer.play()
+    },
+    pause() {
+      this.playing = false,
+      this.wavesurfer.pause()
     }
   },
 
@@ -65,12 +74,10 @@ export default {
       state: 'initialized',
     });
     this.wavesurfer.setVolume(Math.pow(this.volume, 2) / 10000)
-    this.wavesurfer.on('finish', () => this.$emit('finish'))
-    this.wavesurfer.on('ready', () => {
-      this.state = 'ready'
-      this.$emit('ready')
-    })
-    
+    this.wavesurfer.on('ready', () => { this.$emit('ready') })
+    this.wavesurfer.on('play', () => this.$emit('play', { id: this.id, src: this.src }))
+    this.wavesurfer.on('pause', () => this.$emit('pause', { id: this.id, src: this.src }))
+    this.wavesurfer.on('finish', () => this.$emit('finish', { id: this.id, src: this.src }))
   }
 };
 </script>
