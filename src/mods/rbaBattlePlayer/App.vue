@@ -43,6 +43,9 @@ export default {
 <style scoped src="./../../bootstrapCustom.scss"></style>
 
 <style>
+.rba-player.card {
+  margin-bottom: 3rem!important;
+}
 
 .rba-player .volume-slider {
   width: 70%;
