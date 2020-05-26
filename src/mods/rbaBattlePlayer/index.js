@@ -12,6 +12,7 @@ export default {
 	description: 'Player für Battlerunden im Browser anzeigen',
 	longDescription: 'Zeigt einen Player auf Battleseiten, damit Runden direkt im Browser angehört werden können',
 	target: 'rba',
+	match: /&BATTLEID=|&BATTLE=|ID=8000/,
 	options: {
         defaultVolume: {
             title: 'Standardlautstärke',
