@@ -157,7 +157,7 @@ export default {
     },
     mounted() {
         browser.storage.local.get("volumes").then(data => {
-            if (data.volumes[this.round.id]) {
+            if (data.volumes && data.volumes[this.round.id]) {
                 this.volume = data.volumes[this.round.id];
             }
         });
