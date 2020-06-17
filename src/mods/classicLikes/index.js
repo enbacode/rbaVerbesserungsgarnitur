@@ -9,7 +9,19 @@ export default {
     style: style,
     category: 'cosmetic',
     target: 'board',
-    inject: () => {
+    options: {
+        countingType: {
+            title: 'Zählart',
+            description: 'Was zählt als Bedankung?',
+            value: 'likesOnly',
+            choices: [
+                { value: 'likesOnly', text: 'nur "bedankt"'},
+                { value: 'positivesOnly', text: '"bedankt", "das goldene Mic", "gefällt mir", "haha"'},
+                { value: 'all', text: 'alle Reaktionen'},
+            ],
+        }
+    },
+    inject() {
         //TODO un-jq this
         //TODO use vDOM for this
         $(document).ready(() => {
@@ -18,7 +30,18 @@ export default {
                 //store the data ID. We need this later to POST a like
                 const objectID = e.getAttribute('data-object-id')
                 //store current count and text
-                let likeCount = $(e).find('.reactCountButton .reactionCount')
+                let likeCount = null;
+                switch (this.options.countingType.value) {
+                    case 'likesOnly':
+                        likeCount = $(e).find('.reactCountButton[data-reaction-type-id="2"] .reactionCount')
+                        break;
+                    case 'positivesOnly':
+                        likeCount = $(e).find('.reactCountButton[data-reaction-type-id="2"] .reactionCount, .reactCountButton[data-reaction-type-id="3"] .reactionCount,  .reactCountButton[data-reaction-type-id="7"] .reactionCount,  .reactCountButton[data-reaction-type-id="1"] .reactionCount')
+                        break;
+                    default:
+                        likeCount = $(e).find('.reactCountButton .reactionCount')
+                        break;
+                }
                 if (likeCount.length > 1) {
                     likeCount = likeCount.toArray().reduce((a, e) => parseInt(a.innerText || a) + parseInt(e.innerText))
                 } else {
