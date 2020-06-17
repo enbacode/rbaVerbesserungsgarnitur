@@ -18,7 +18,12 @@ export default {
                 //store the data ID. We need this later to POST a like
                 const objectID = e.getAttribute('data-object-id')
                 //store current count and text
-                let likeCount = $(e).find('.reactCountButton[data-reaction-type-id="2"] .reactionCount').text()
+                let likeCount = $(e).find('.reactCountButton .reactionCount')
+                if (likeCount.length > 1) {
+                    likeCount = likeCount.toArray().reduce((a, e) => parseInt(a.innerText || a) + parseInt(e.innerText))
+                } else {
+                    likeCount = likeCount.text()
+                }
                 const likeText = $(e).find('.reactionSummaryList')
                 //apply display: block to the text to make sure
                 //new likes are shown after POST
@@ -27,7 +32,7 @@ export default {
                 likeText.empty()
                 //apply like text if there are already likes on the post
                 if (likeCount)
-                    likeText.html(`Es haben sich bereits ${likeCount} Benutzer bedankt`)
+                    likeText.html(`Es ${likeCount > 1 ? 'haben' : 'hat'} sich bereits ${likeCount} Benutzer bedankt`)
 
                 //replace react with like button
                 $(e).find('.reactButton').text('Bedanken').click((event) => {
